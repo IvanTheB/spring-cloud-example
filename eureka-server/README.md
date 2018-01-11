@@ -1,3 +1,6 @@
-Eureka console:
-	http://localhost:8761/
-	
+# eureka-server
+
+- Eureka console:
+```
+http://localhost:8761/
+```
