@@ -13,3 +13,8 @@ Refresh properties via bus:
 ```
 POST http://localhost:8080/bus/refresh
 ```
+
+Publish custom event on the bus:
+```
+POST http://localhost:8080/publishEvent
+```

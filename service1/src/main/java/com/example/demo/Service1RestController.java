@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +26,9 @@ public class Service1RestController {
 	@Autowired
 	private DiscoveryClient discoveryClient; //abstraction over Eureka
 
+	@Autowired
+	private ApplicationContext applicationContext;
+	
 	@Value("${message:Hello service1}")
 	private String message;
 
@@ -62,4 +67,16 @@ public class Service1RestController {
 	    }
 	    return null;
 	}
+	
+	/**
+	 * Test a custom event on the Bus
+	 */
+	@RequestMapping(value="/publishEvent", method= RequestMethod.POST)
+    public String publish() {
+        // each service instance must have a unique context ID
+        final String myUniqueId = applicationContext.getId(); 
+        final MyCustomRemoteEvent event = new MyCustomRemoteEvent(this, myUniqueId, "hello world");
+        applicationContext.publishEvent(event);
+        return "event published";
+    }
 }
