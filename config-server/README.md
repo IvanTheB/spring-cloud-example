@@ -19,4 +19,10 @@ POST http://localhost:8888/monitor
 	"path" : "*"
 }
 ```
+
+- Event Bus trace:
+```
+GET http://localhost:8888/trace
+```
+
 - Properties provided by the Config Server have higher priority than properties defined locally in other projects
