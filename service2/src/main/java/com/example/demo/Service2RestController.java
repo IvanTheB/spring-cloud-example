@@ -20,24 +20,23 @@ public class Service2RestController {
 	@Value("${message:Hello service2}")
 	private String message;
 
-    @RequestMapping("/message")
+	@RequestMapping("/message")
 	public String message() {
 		return message;
 	}
-	
+
 	@HystrixCommand(fallbackMethod = "fallback")
-    @RequestMapping("/hystrixTest")
-	public String hystrixTest(@RequestParam(required=false) String error) {
-		if( "true".equals(error) ){
+	@RequestMapping("/hystrixTest")
+	public String hystrixTest(@RequestParam(required = false) String error) {
+		if ("true".equals(error)) {
 			throw new RuntimeException("Go Hystrix!");
 		}
 		return "No errors. Set error=true to trigger fallback";
 	}
-	
+
 	public String fallback(String error) {
-		return "Fallback invoked for error="+error;
+		return "Fallback invoked for error=" + error;
 	}
-	
 
 	@RequestMapping("/restTemplate")
 	public String getOtherMessage() {

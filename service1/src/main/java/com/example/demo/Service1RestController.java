@@ -18,17 +18,17 @@ import org.springframework.web.client.RestTemplate;
 public class Service1RestController {
 
 	@Autowired
-	private RestTemplate restTemplate; //@LoadBalanced restemplate
-	
+	private RestTemplate restTemplate; // @LoadBalanced restemplate
+
 	@Autowired
-	private Service2FeignClient service2FeignClient; //a Feign Client
-	
+	private Service2FeignClient service2FeignClient; // a Feign Client
+
 	@Autowired
-	private DiscoveryClient discoveryClient; //abstraction over Eureka
+	private DiscoveryClient discoveryClient; // abstraction over Eureka
 
 	@Autowired
 	private ApplicationContext applicationContext;
-	
+
 	@Value("${message:Hello service1}")
 	private String message;
 
@@ -45,7 +45,7 @@ public class Service1RestController {
 		String service2message = restTemplate.getForObject("http://service2/message", String.class);
 		return service2message;
 	}
-	
+
 	/**
 	 * Example with a FeignClient
 	 */
@@ -54,29 +54,29 @@ public class Service1RestController {
 		String service2message = service2FeignClient.message();
 		return service2message;
 	}
-	
+
 	/**
 	 * Test the DiscoveryClient
 	 */
 	@RequestMapping("/service2info")
 	public String service2info() {
 		List<ServiceInstance> list = discoveryClient.getInstances("service2");
-	    if (list != null && list.size() > 0 ) {
-	        ServiceInstance serviceInstance = list.get(0);
+		if (list != null && list.size() > 0) {
+			ServiceInstance serviceInstance = list.get(0);
 			return serviceInstance.getUri().toString();
-	    }
-	    return null;
+		}
+		return null;
 	}
-	
+
 	/**
 	 * Test a custom event on the Bus
 	 */
-	@RequestMapping(value="/publishEvent", method= RequestMethod.POST)
-    public String publish() {
-        // each service instance must have a unique context ID
-        final String myUniqueId = applicationContext.getId(); 
-        final MyCustomRemoteEvent event = new MyCustomRemoteEvent(this, myUniqueId, "hello world");
-        applicationContext.publishEvent(event);
-        return "event published";
-    }
+	@RequestMapping(value = "/publishEvent", method = RequestMethod.POST)
+	public String publish() {
+		// each service instance must have a unique context ID
+		final String myUniqueId = applicationContext.getId();
+		final MyCustomRemoteEvent event = new MyCustomRemoteEvent(this, myUniqueId, "hello world");
+		applicationContext.publishEvent(event);
+		return "event published";
+	}
 }

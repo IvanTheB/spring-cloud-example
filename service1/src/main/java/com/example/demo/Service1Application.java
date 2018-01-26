@@ -18,15 +18,15 @@ public class Service1Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Service1Application.class, args);
 	}
-	
+
 	@LoadBalanced
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-	
 	@Bean
-    Logger.Level feignLoggerLevel() {
-        return Logger.Level.FULL;
-    }
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	@Bean
+	Logger.Level feignLoggerLevel() {
+		return Logger.Level.FULL;
+	}
 }
