@@ -36,6 +36,16 @@ public class Service1RestController {
 	public String message() {
 		return this.message;
 	}
+	
+	@RequestMapping("/public/message")
+	public String publicMessage() {
+		return "Public message";
+	}
+	
+	@RequestMapping("/admin/message")
+	public String adminMessage() {
+		return "Only admin can see this";
+	}
 
 	/**
 	 * Example with a @LoadBalanced RestTemplate
